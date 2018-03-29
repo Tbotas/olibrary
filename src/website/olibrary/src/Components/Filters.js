@@ -32,6 +32,7 @@ class Filters extends Component{
         this.sumbitChanges();
     }
     handleChangeCategory(event) {
+        /*
         let id = event.target.value;
         if(this.state.filters.categories.includes(id)){
             let indexOfId = this.state.filters.categories.indexOf(id);
@@ -43,6 +44,7 @@ class Filters extends Component{
             this.setState({filters: {categories: categories}});
         }
         this.sumbitChanges();
+        */
     }
     render(){
         var cat = [
@@ -70,7 +72,7 @@ class Filters extends Component{
                     <Radio name="radioGroup" inline>
                         Non
                     </Radio>
-                    <Radio name="radioGroup" inline checked>
+                    <Radio name="radioGroup" inline>
                         Peu importe
                     </Radio>
                 </FormGroup>

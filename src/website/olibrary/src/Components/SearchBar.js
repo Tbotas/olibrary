@@ -7,21 +7,6 @@ class SearchBar extends Component{
     state = {
         value: ''
     }
-    componentDidMount(){
-        let url = 'https://randomuser.me/api/';
-        fetch(url)
-            .then(response => {
-                console.log(response);
-
-            })
-            .then(response => {
-                console.log(response);
-
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
     handleChange(e){
         this.setState({value: e.target.value});
     }

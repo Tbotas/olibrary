@@ -5,8 +5,8 @@ import Item from "./Item";
 
 class Results extends Component{
     render(){
-        const renderItems = this.props.books.map(function (book) {
-                return <Item title={book.title} description={book.description}/>
+        const renderItems = this.props.books.map(function (book, index) {
+                return <Item key={index} title={book.title} description={book.description}/>
             });
 
         return(

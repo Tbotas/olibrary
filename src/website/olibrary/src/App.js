@@ -4,28 +4,36 @@ import SearchBar from "./Components/SearchBar";
 import Filters from "./Components/Filters";
 import Results from "./Components/Results";
 
+import { connect } from 'react-redux';
+import { updateBooks } from "./actions/books-actions";
+
 import { Grid, Row, Col } from 'react-bootstrap';
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.onUpdateBooks = this.onUpdateBooks.bind(this);
+    }
     getQuery(query){
         alert('Recherche: ' + query);
     }
     callbackFilters(filters){
         console.log('Filtres dans l\'app:', filters);
     }
+    onUpdateBooks(){
+        this.props.onUpdateBooks([
+            {title: 'Mon titre', description: 'Ma description'},
+            {title: 'Mon titre', description: 'Ma description'},
+            {title: 'Mon titre', description: 'Ma description'}
+        ]);
+    }
     render(){
-        const books = [
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'},
-            {title: 'Mon super titre', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores doloribus ducimus, ea earum illo neque reiciendis sint ullam unde ut veritatis voluptatem voluptatum. Accusantium dicta dolores nemo nobis ullam?\n'}
-            ];
+        console.log(this.props);
+        const books = this.props.books;
         return(
             <div>
                 <Menu/>
+                <div><button onClick={this.onUpdateBooks}>Update books</button></div>
                 <SearchBar callback={this.getQuery}/>
                 <Grid>
                     <Row className="show-grid">
@@ -42,4 +50,12 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return state;
+};
+
+const mapActionsToProps = {
+    onUpdateBooks: updateBooks
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(App);
