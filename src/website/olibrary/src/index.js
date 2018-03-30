@@ -4,16 +4,18 @@ import App from './App';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import booksReducer from './reducers/books-reducers';
+import filtersReducer from './reducers/filters-reducers';
+import queryReducer from './reducers/query-reducers'
 
 
 const allReducers = combineReducers({
-    books: booksReducer
+    books: booksReducer,
+    filters: filtersReducer,
+    query: queryReducer
 });
 
 const store = createStore(
-    allReducers, {
-        books: [{title: 'mon cul', description: 'lol'}]
-    },
+    allReducers,
     window.devToolsExtension && window.devToolsExtension()
 );
 

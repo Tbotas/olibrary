@@ -1,37 +1,29 @@
-import React, { Component } from 'react';
-import {Form, FormGroup, FormControl, Button} from "react-bootstrap";
+import React, { Component } from 'react'
+import {Form, FormGroup, FormControl, Button} from "react-bootstrap"
 
-import './Styles.css';
+import './Styles.css'
+import { connect } from 'react-redux'
+import { updateQuery } from "../actions/Query"
 
 class SearchBar extends Component{
-    state = {
-        value: ''
+    constructor(props){
+        super(props);
     }
     handleChange(e){
-        this.setState({value: e.target.value});
-    }
-    getValidationState(){
-
-    }
-    submitSearch(){
-        let query = this.state.value;
-        this.props.callback(query);
+        this.props.onUpdateQuery(e.target.value);
     }
     render(){
         return(
             <div className={'searchBarContainer'}>
                 <Form inline>
-                <FormGroup
-                    controlId="formBasicText"
-                    validationState={this.getValidationState()}
-                >
+                <FormGroup controlId="formBasicText">
                     <FormControl
                         type="text"
-                        value={this.state.value}
-                        placeholder="Enter text"
+                        value={this.props.query}
+                        placeholder="Rechercher..."
                         onChange={this.handleChange.bind(this)}
+                        onKeyPress={e => {if (e.key === 'Enter') {e.preventDefault()}}}
                     />
-                    <Button onClick={this.submitSearch.bind(this)}>Submit</Button>
                 </FormGroup>
             </Form>
             </div>
@@ -40,4 +32,14 @@ class SearchBar extends Component{
     }
 }
 
-export default SearchBar;
+
+
+const mapStateToProps = state => {
+    return state;
+};
+
+const mapActionsToProps = {
+    onUpdateQuery: updateQuery
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(SearchBar);

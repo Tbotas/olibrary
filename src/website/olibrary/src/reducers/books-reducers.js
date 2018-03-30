@@ -1,4 +1,4 @@
-import { UPDATE_BOOKS } from "../actions/books-actions";
+import { UPDATE_BOOKS } from "../actions/Books";
 
 export default function booksReducer(state = [], action) {
     switch (action.type){

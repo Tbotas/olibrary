@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Menu from "./Components/Menu";
-import SearchBar from "./Components/SearchBar";
-import Filters from "./Components/Filters";
-import Results from "./Components/Results";
+import Menu from "./components/Menu";
+import SearchBar from "./components/SearchBar";
+import Filters from "./components/Filters";
+import Results from "./components/Results";
 
 import { connect } from 'react-redux';
-import { updateBooks } from "./actions/books-actions";
+import { updateBooks } from "./actions/Books";
 
 import { Grid, Row, Col } from 'react-bootstrap';
 

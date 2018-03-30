@@ -1,10 +1,10 @@
 export const UPDATE_BOOKS = 'books:updateBooks'
 
-export function updateBooks(newBooks) {
+export const updateBooks = books => {
     return {
         type: UPDATE_BOOKS,
         payload: {
-            books: newBooks
+            books: books
         }
     }
 }

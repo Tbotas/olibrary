@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import {FormGroup, FormControl, Checkbox, Radio, ControlLabel} from "react-bootstrap";
 
+import { connect } from 'react-redux';
+import { updateFilters } from '../actions/Filters'
+
 import './Styles.css';
+
 
 class Filters extends Component{
     state = {
+        loading: true,
+        categories : [],
         filters: {
             categories : [],
             available: 0,
@@ -19,11 +25,13 @@ class Filters extends Component{
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
     }
     sumbitChanges(){
-        this.props.callback(this.state.filters);
+        this.props.onUpdateFilters(this.state.filters);
     }
     handleChangeType(event) {
         console.log(event.target);
-        this.setState({filters: {type: event.target.value}});
+        let state = this.state;
+        state.filters.type = event.target.value;
+        this.setState({state});
         this.sumbitChanges();
     }
     handleChangeAvailable(event) {
@@ -32,6 +40,7 @@ class Filters extends Component{
         this.sumbitChanges();
     }
     handleChangeCategory(event) {
+        this.sumbitChanges();
         /*
         let id = event.target.value;
         if(this.state.filters.categories.includes(id)){
@@ -46,17 +55,33 @@ class Filters extends Component{
         this.sumbitChanges();
         */
     }
+    componentDidMount() {
+        const API = "https://www.googleapis.com/books/v1/volumes?q={search terms}";
+        fetch(API)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let categories = [];
+                data.items.map(item => {
+                    if(item.volumeInfo.categories){
+                        categories.push(item.volumeInfo.categories);
+                    }
+                });
+                this.setState({loading: false, categories});
+            })
+            .catch(error => console.log(error));
+    }
     render(){
-        var cat = [
-          'Action',
-          'Aventure',
-          'Sport',
-          'Cuisine',
-          'Développement personnel',
-        ];
-        const renderCategories = cat.map(function (value, index) {
-            return <Checkbox key={index} value={index} onChange={this.handleChangeCategory}>{value}</Checkbox>
-        }, this);
+
+        let renderCategories;
+        if(this.state.loading === true){
+            renderCategories = (<div>Loading...</div>);
+        }else{
+            renderCategories = this.state.categories.map(function (value, index) {
+                return <Checkbox key={index} value={index} onChange={this.handleChangeCategory}>{value}</Checkbox>
+            }, this);
+        }
+
         return(
             <form>
                 <h2>Filtres</h2>
@@ -66,13 +91,13 @@ class Filters extends Component{
                 </FormGroup>
                 <FormGroup  onChange={this.handleChangeAvailable}>
                     <ControlLabel>Disponible</ControlLabel><br/>
-                    <Radio name="radioGroup" inline>
+                    <Radio name="radioGroup" inline value={'yes'}>
                         Oui
                     </Radio>
-                    <Radio name="radioGroup" inline>
+                    <Radio name="radioGroup" inline value={'no'}>
                         Non
                     </Radio>
-                    <Radio name="radioGroup" inline>
+                    <Radio name="radioGroup" inline value={'anyway'}>
                         Peu importe
                     </Radio>
                 </FormGroup>
@@ -91,4 +116,14 @@ class Filters extends Component{
     }
 }
 
-export default Filters;
+
+
+const mapStateToProps = state => {
+    return state;
+};
+
+const mapActionsToProps = {
+    onUpdateFilters: updateFilters
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Filters);
