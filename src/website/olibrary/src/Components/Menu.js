@@ -21,7 +21,6 @@ class Menu extends Component{
         super();
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
-        this.login = this.login.bind(this);
         this.submitLogin = this.submitLogin.bind(this);
     }
     handleChangeEmail(event){
@@ -30,38 +29,36 @@ class Menu extends Component{
     handleChangePassword(event){
         this.setState({password: event.target.value});
     }
-    login(){
+    submitLogin(){
         if(this.state.email.length == 0 || this.state.password.length == 0){
             alert("Vous devez remplir tous les champs");
         }else{
-            this.submitLogin()
+            const API = "https://reqres.in/api/";
+            const ENDPOINT = "login";
+
+            var myInit = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: this.state.email,
+                    password: this.state.password
+                })
+            };
+
+            fetch(API + ENDPOINT, myInit)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.token){
+                        alert('Vous êtes connecté avec le token: '+data.token)
+                    }
+                })
+                .catch(error => console.log(error));
         }
     }
-    submitLogin(){
-        const API = "https://reqres.in/api/";
-        const ENDPOINT = "login";
 
-        var myInit = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-            })
-        };
-
-        fetch(API + ENDPOINT, myInit)
-            .then(response => response.json())
-            .then(data => {
-                if(data.token){
-                    alert('Vous êtes connecté avec le token: '+data.token)
-                }
-            })
-            .catch(error => console.log(error));
-    }
     render(){
         return(
             <div>
@@ -89,7 +86,7 @@ class Menu extends Component{
                 <form>
                     <FieldGroup id="formControlsEmail" value={this.state.email} onChange={this.handleChangeEmail} type="email" label="Email" placeholder="Votre email" />
                     <FieldGroup id="formControlsPassword" value={this.state.password} onChange={this.handleChangePassword} label="Mot de passe" type="password" placeholder="•••••••••" />
-                    <Button onClick={this.login}>Se connecter</Button>
+                    <Button onClick={this.submitLogin}>Se connecter</Button>
                 </form>
             </SkyLight>
             <SkyLight hideOnOverlayClicked ref={ref => this.register = ref} title="S'inscrire">
