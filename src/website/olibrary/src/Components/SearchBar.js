@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Form, FormGroup, FormControl, Button} from "react-bootstrap"
 
-import './Styles.css'
 import { connect } from 'react-redux'
 import { updateQuery } from "../actions/Query"
 

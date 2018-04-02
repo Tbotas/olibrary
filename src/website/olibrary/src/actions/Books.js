@@ -9,4 +9,3 @@ export const updateBooks = books => {
     }
 }
 
-//  {title: 'Mon titre', description: 'Ma description'}

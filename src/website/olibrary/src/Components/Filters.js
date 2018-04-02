@@ -4,7 +4,7 @@ import {FormGroup, FormControl, Checkbox, Radio, ControlLabel} from "react-boots
 import { connect } from 'react-redux';
 import { updateFilters } from '../actions/Filters'
 
-import './Styles.css';
+import '../styles/Styles.css';
 
 
 class Filters extends Component{

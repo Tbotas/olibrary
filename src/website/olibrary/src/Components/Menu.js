@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Navbar, Nav, NavItem, FormGroup, ControlLabel, FormControl, HelpBlock, Button} from "react-bootstrap";
 import SkyLight from 'react-skylight';
+import { Link } from 'react-router-dom'
 
 const FieldGroup = ({ id, label, help, ...props }) => {
     return (
@@ -65,7 +66,7 @@ class Menu extends Component{
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">Olibrary</a>
+                            <Link to="/">Olibrary</Link>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
