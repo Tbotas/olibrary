@@ -28,39 +28,23 @@ class Filters extends Component{
         this.props.onUpdateFilters(this.state.filters);
     }
     handleChangeType(event) {
-        console.log(event.target);
         let state = this.state;
         state.filters.type = event.target.value;
         this.setState({state});
         this.sumbitChanges();
     }
     handleChangeAvailable(event) {
-        console.log(event.target.value);
         this.setState({filters: {available: event.target.value}});
         this.sumbitChanges();
     }
     handleChangeCategory(event) {
         this.sumbitChanges();
-        /*
-        let id = event.target.value;
-        if(this.state.filters.categories.includes(id)){
-            let indexOfId = this.state.filters.categories.indexOf(id);
-            let categories = this.state.filters.categories.slice(indexOfId, 1);
-            console.log(categories);
-            this.setState({filters: {categories: categories}});
-        }else{
-            let categories = this.state.filters.categories.push(id);
-            this.setState({filters: {categories: categories}});
-        }
-        this.sumbitChanges();
-        */
     }
     componentDidMount() {
         const API = "https://www.googleapis.com/books/v1/volumes?q={search terms}";
         fetch(API)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 let categories = [];
                 data.items.map(item => {
                     if(item.volumeInfo.categories){

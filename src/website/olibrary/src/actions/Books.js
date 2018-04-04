@@ -9,3 +9,13 @@ export const updateBooks = books => {
     }
 }
 
+export const UPDATE_BOOK = 'books:updateBook'
+
+export const updateBook = book => {
+    return {
+        type: UPDATE_BOOK,
+        payload: {
+            book: book
+        }
+    }
+}

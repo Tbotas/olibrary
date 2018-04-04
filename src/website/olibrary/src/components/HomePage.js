@@ -11,32 +11,34 @@ import { Grid, Row, Col } from 'react-bootstrap'
 class HomePage extends Component {
     constructor(props){
         super(props)
-        this.onUpdateBooks = this.onUpdateBooks.bind(this)
     }
-    getQuery(query){
-        alert('Recherche: ' + query)
-    }
-    callbackFilters(filters){
-        console.log('Filtres dans l\'app:', filters)
-    }
-    onUpdateBooks(){
-        this.props.onUpdateBooks([
-            {id: 1, title: 'Mon titre', description: 'Ma description'},
-            {id: 2, title: 'Mon titre', description: 'Ma description'},
-            {id: 3, title: 'Mon titre', description: 'Ma description'}
-        ]);
+    componentDidMount(){
+        const API = "http://localhost:3001/api/v1/";
+        const END_POINT = "books";
+
+        fetch(API + END_POINT)
+            .then(response => response.json())
+            .then(data => {
+                // RESULTATS
+                /*
+                this.props.onUpdateBooks([
+                    {id: 1, title: 'Mon titre', description: 'Ma description'},
+                    {id: 2, title: 'Mon titre', description: 'Ma description'},
+                    {id: 3, title: 'Mon titre', description: 'Ma description'}
+                ]);
+                 */
+            })
+            .catch(error => console.log(error));
     }
     render(){
-        console.log(this.props);
         const books = this.props.books;
         return(
             <div>
-                <div><button onClick={this.onUpdateBooks}>Update books</button></div>
                 <SearchBar callback={this.getQuery}/>
                 <Grid>
                     <Row className="show-grid">
                         <Col md={3}>
-                            <Filters callback={this.callbackFilters}/>
+                            <Filters/>
                         </Col>
                         <Col md={9}>
                             <Results books={books}/>

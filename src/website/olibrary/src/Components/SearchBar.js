@@ -26,7 +26,6 @@ class SearchBar extends Component{
                 </FormGroup>
             </Form>
             </div>
-
         )
     }
 }

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import {Navbar, Nav, NavItem, FormGroup, ControlLabel, FormControl, HelpBlock, Button} from "react-bootstrap";
-import SkyLight from 'react-skylight';
+import React, { Component } from 'react'
+import {Navbar, Nav, NavItem, FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap'
+import SkyLight from 'react-skylight'
 import { Link } from 'react-router-dom'
+import { userService } from '../services/userService'
 
 const FieldGroup = ({ id, label, help, ...props }) => {
     return (
@@ -16,7 +17,8 @@ const FieldGroup = ({ id, label, help, ...props }) => {
 class Menu extends Component{
     state = {
         email: '',
-        password: ''
+        password: '',
+        logged: true
     }
     constructor(){
         super();
@@ -71,27 +73,43 @@ class Menu extends Component{
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
-                        <Nav pullRight>
-                            <NavItem eventKey={1} onClick={() => this.login.show()} href="#">
-                                Se connecter
-                            </NavItem>
-                            <NavItem eventKey={2} onClick={() => this.register.show()} href="#">
-                                S'inscrire
-                            </NavItem>
-                        </Nav>
+                            { userService.checkLogged() ? (
+                                <Nav pullRight>
+                                <NavItem>
+                                    <Link to={"/account"}>Mon compte</Link>
+                                </NavItem>
+                                <NavItem>
+                                <Link to={"/logout"}>Deconnexion</Link>
+                                </NavItem>
+                                </Nav>
+                                ) : (
+                                <Nav pullRight>
+                                    <NavItem eventKey={1} onClick={() => this.login.show()} href="#">
+                                        Se connecter
+                                    </NavItem>
+                                    <NavItem eventKey={2} onClick={() => this.register.show()} href="#">
+                                        S'inscrire
+                                    </NavItem>
+                                </Nav>
+                                ) }
                     </Navbar.Collapse>
                 </Navbar>
 
             {/* Modals */}
             <SkyLight hideOnOverlayClicked ref={ref => this.login = ref} title="Se connecter">
                 <form>
-                    <FieldGroup id="formControlsEmail" value={this.state.email} onChange={this.handleChangeEmail} type="email" label="Email" placeholder="Votre email" />
-                    <FieldGroup id="formControlsPassword" value={this.state.password} onChange={this.handleChangePassword} label="Mot de passe" type="password" placeholder="•••••••••" />
+                    <FieldGroup value={this.state.email} onChange={this.handleChangeEmail} type="email" label="Email" placeholder="Votre email" />
+                    <FieldGroup value={this.state.password} onChange={this.handleChangePassword} label="Mot de passe" type="password" placeholder="•••••••••" />
                     <Button onClick={this.submitLogin}>Se connecter</Button>
                 </form>
             </SkyLight>
             <SkyLight hideOnOverlayClicked ref={ref => this.register = ref} title="S'inscrire">
-                S'inscrire
+                <form>
+                    <FieldGroup value={this.state.email} onChange={this.handleChangeEmail} type="email" label="Email" placeholder="Votre email" />
+                    <FieldGroup value={this.state.password} onChange={this.handleChangePassword} label="Mot de passe" type="password" placeholder="•••••••••" />
+                    <FieldGroup value={this.state.password} onChange={this.handleChangePassword} label="Confirmer votre vot de passe" type="password" placeholder="•••••••••" />
+                    <Button onClick={this.submitLogin}>S'inscrire</Button>
+                </form>
             </SkyLight>
         </div>
         )
